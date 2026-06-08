@@ -172,4 +172,6 @@ await client.close();
 
 ## License
 
-This repository contains documentation for the PikaSim MCP server. The server itself is a hosted service at `pikasim.com/mcp`.
+Licensed under the [MIT License](LICENSE).
+
+This repository contains documentation and integration details for the PikaSim MCP server. The server itself is a hosted service at `pikasim.com/mcp`.
