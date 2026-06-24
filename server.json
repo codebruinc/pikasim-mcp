@@ -1,0 +1,17 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json",
+  "name": "io.pikasim/pikasim",
+  "description": "Buy eSIMs from an AI agent — anonymous data plans and real carrier phone numbers across 190+ countries, no account or KYC, settled in crypto from a prepaid agent wallet.",
+  "version": "1.0.0",
+  "repository": {
+    "url": "https://github.com/codebruinc/pikasim-mcp",
+    "source": "github"
+  },
+  "websiteUrl": "https://pikasim.com/mcp-docs",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://pikasim.com/mcp"
+    }
+  ]
+}
