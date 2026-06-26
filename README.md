@@ -4,11 +4,12 @@
 
 PikaSim is a **remote, hosted MCP server** (Streamable HTTP). You don't run any code — just point your AI agent at the URL and it can search plans, check coverage, get pricing, and (with a funded agent wallet) purchase eSIMs autonomously.
 
-- **Endpoint:** `https://pikasim.com/mcp`
-- **Transport:** Streamable HTTP (JSON-RPC over HTTP POST), protocol `2025-03-26`
+- **Browse (no auth):** `https://pikasim.com/mcp`
+- **Purchase (OAuth):** `https://pikasim.com/mcp/wallet`
+- **Transport:** Streamable HTTP (JSON-RPC over HTTP POST)
 - **Docs:** https://pikasim.com/mcp-docs
 - **Agent wallet:** https://pikasim.com/agent-wallet
-- **Browsing needs no key.** Purchasing needs a prepaid `ak_live_` agent-wallet key.
+- **Browsing needs no key.** Purchasing connects a prepaid agent wallet via one-click OAuth (or an `ak_live_` key on CLI clients).
 
 ---
 
@@ -29,7 +30,7 @@ Add PikaSim to your AI agent's MCP config:
 
 That's it — your agent can now search data and phone-number eSIM plans, check country coverage, and get pricing for 190+ countries. **No API key needed for browsing.**
 
-To **purchase** too, create a free [agent wallet](https://pikasim.com/agent-wallet) (a prepaid, crypto-funded balance at retail pricing) and attach its `ak_live_` key (see [Authentication](#authentication)).
+To **purchase** too, connect `https://pikasim.com/mcp/wallet` instead — it triggers a one-click OAuth flow where you authorize a free, prepaid [agent wallet](https://pikasim.com/agent-wallet) by pasting your wallet code (no key handling, no account, no email). See [Authentication](#authentication).
 
 ---
 
@@ -50,7 +51,7 @@ PikaSim is a remote MCP server at `https://pikasim.com/mcp`. The config key and 
 
 ### Claude Desktop
 
-Remote servers are added as **Connectors**, not via `claude_desktop_config.json`. Go to **Settings → Connectors → Add custom connector** and paste `https://pikasim.com/mcp`. To purchase, paste `https://pikasim.com/mcp/ak_live_YOUR_KEY` instead.
+Remote servers are added as **Connectors**, not via `claude_desktop_config.json`. Go to **Settings → Connectors → Add custom connector**. To browse, paste `https://pikasim.com/mcp`. To **purchase**, paste `https://pikasim.com/mcp/wallet` and click **Connect** — Claude opens a PikaSim page where you authorize a wallet by pasting your wallet code (one-click OAuth, no key in the URL).
 
 ### Claude Code (CLI)
 
@@ -78,7 +79,7 @@ claude mcp add --transport http pikasim https://pikasim.com/mcp \
 
 ### ChatGPT (custom connector)
 
-Add a custom connector with URL `https://pikasim.com/mcp` (or `https://pikasim.com/mcp/ak_live_YOUR_KEY` to purchase).
+Add a custom connector with URL `https://pikasim.com/mcp` to browse, or `https://pikasim.com/mcp/wallet` to purchase (the wallet URL triggers OAuth — authorize by pasting your wallet code).
 
 ---
 
@@ -113,14 +114,12 @@ Add a custom connector with URL `https://pikasim.com/mcp` (or `https://pikasim.c
 
 ## Authentication
 
-Browsing is open. To purchase, fund a prepaid **agent wallet** and attach its `ak_live_` key one of two ways:
+Browsing is open at `https://pikasim.com/mcp`. To purchase, connect `https://pikasim.com/mcp/wallet`, which supports two auth methods:
 
-1. **Key-in-URL** (Claude Desktop, ChatGPT, any connector that only takes a URL):
-   `https://pikasim.com/mcp/ak_live_YOUR_KEY`
-2. **Bearer header** (CLI clients):
-   `Authorization: Bearer ak_live_YOUR_KEY`
+1. **OAuth (recommended, for app clients like Claude Desktop / ChatGPT):** connecting the wallet URL triggers OAuth 2.1 (Dynamic Client Registration + PKCE). You're sent to a PikaSim consent page where you paste your **wallet code** to authorize. The client receives a revocable access token — never your wallet code or `ak_live_` key. No account, no email, no KYC.
+2. **Bearer key (for CLI clients):** send `Authorization: Bearer ak_live_YOUR_KEY`.
 
-The plain `https://pikasim.com/mcp` URL (no key) is **browse-only** — the wallet and funds live behind the key. Create a wallet and get a key at **https://pikasim.com/agent-wallet** (save the wallet code; it's the only way back in).
+The plain `https://pikasim.com/mcp` URL is **browse-only**. Create a wallet and get your wallet code + key at **https://pikasim.com/agent-wallet** (save the wallet code; it's the only way back in).
 
 ### Wallet, in brief
 
