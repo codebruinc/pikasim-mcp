@@ -164,6 +164,10 @@ The plain `https://pikasim.com/mcp` URL is **browse-only**. Create a wallet and 
 - Agent wallet: https://pikasim.com/agent-wallet
 - Agentic ordering guide: https://pikasim.com/agentic-esim-ordering
 
+## For registries (Dockerfile)
+
+You do **not** need Docker to use PikaSim — just point your client at the URL above. The included [`Dockerfile`](Dockerfile) exists only so registries (e.g. [Glama](https://glama.ai/mcp/servers/codebruinc/pikasim-mcp)) can start a container, speak MCP over stdio, and introspect the tool set. It runs [`mcp-remote`](https://www.npmjs.com/package/mcp-remote), which bridges a local stdio client to the hosted Streamable HTTP endpoint. All public tools are discoverable with no key.
+
 ## License
 
 MIT — see [LICENSE](LICENSE). This repository contains documentation for the hosted PikaSim MCP server; the server itself runs at `https://pikasim.com/mcp`.
