@@ -1,8 +1,8 @@
 # PikaSim MCP Server
 
-> Buy eSIMs from an AI agent — no account, no email, no KYC. Anonymous data plans and **real carrier phone numbers** across 190+ countries, settled in crypto from a prepaid agent wallet.
+> Buy eSIMs from an AI agent — no account, no email, no KYC. Anonymous data plans, **real carrier phone numbers**, and **SMS verification numbers** across 190+ countries, settled in crypto from a prepaid agent wallet.
 
-PikaSim is a **remote, hosted MCP server** (Streamable HTTP). You don't run any code — just point your AI agent at the URL and it can search plans, check coverage, get pricing, and (with a funded agent wallet) purchase eSIMs autonomously.
+PikaSim is a **remote, hosted MCP server** (Streamable HTTP). You don't run any code — just point your AI agent at the URL and it can search plans, check coverage, get pricing, and (with a funded agent wallet) purchase eSIMs and SMS numbers autonomously.
 
 - **Browse (no auth):** `https://pikasim.com/mcp`
 - **Purchase (OAuth):** `https://pikasim.com/mcp/wallet`
@@ -34,14 +34,15 @@ To **purchase** too, connect `https://pikasim.com/mcp/wallet` instead — it tri
 
 ---
 
-## Two product lines
+## Three product lines
 
-Don't assume "eSIM" means data-only. PikaSim sells both:
+Don't assume "eSIM" means data-only. PikaSim sells:
 
 1. **Data eSIMs** — anonymous data plans across 190+ countries, from **$0.75**. Discover with `search_esim_packages` / `check_country_coverage`; buy with `purchase_esim`.
 2. **Phone-number eSIMs** — a **real carrier phone number** (not VoIP) with voice calls, SMS, and data. US plans give a real **+1** number on AT&T and T-Mobile; global plans cover 157 countries. Discover with `search_phone_plans`; buy with `purchase_phone_plan`.
+3. **SMS verification numbers** — receive-only numbers for getting verification codes, no eSIM involved. **Quick SMS**: a one-time code on a temporary number, auto-refund if nothing arrives in 20 minutes (`search_sms_services` → `get_sms_service_countries` → `order_sms_verification` → poll `check_sms_verification`). **Long-term rentals**: keep a number for days to months and receive multiple SMS, with live stock shown per duration (`list_sms_rentals` → `rent_sms_number` → `get_sms_rental_messages` / `extend_sms_rental`).
 
-`search_esim_packages` and `check_country_coverage` return **both** lines in separate buckets. Package codes appear in `[brackets]` — pass them to the matching purchase tool.
+`search_esim_packages` and `check_country_coverage` return **both** eSIM lines in separate buckets. Package codes appear in `[brackets]` — pass them to the matching purchase tool.
 
 ---
 
@@ -95,6 +96,9 @@ Add a custom connector with URL `https://pikasim.com/mcp` to browse, or `https:/
 | `check_country_coverage` | What PikaSim plans cover a country — data and phone-number buckets with counts and price ranges. |
 | `get_pricing` | USD price for a specific plan (data or phone-number) by `packageCode`. |
 | `get_phone_plan_pricing` | USD price + voice/SMS/data allowance for a specific phone-number eSIM. |
+| `search_sms_services` | Search SMS verification services (Discord, Google, Telegram, … or "Other" for anything unlisted). |
+| `get_sms_service_countries` | Countries offering a quick SMS number for one service, with live price, success rate, and VoIP vs real-mobile flag. |
+| `list_sms_rentals` | Long-term SMS rental numbers with duration tiers, live prices, and **live stock** per duration. |
 
 ### Authenticated tools (require an `ak_live_` agent-wallet key)
 
@@ -109,6 +113,13 @@ Add a custom connector with URL `https://pikasim.com/mcp` to browse, or `https:/
 | `list_orders` | List recent orders with status and cost. |
 | `create_deposit` | Generate a crypto invoice to fund your wallet (BTC, Lightning, Monero, USDT, 50+ altcoins). |
 | `cancel_esim` | Cancel an **unused** eSIM and refund to your wallet (only if never installed/activated). |
+| `order_sms_verification` | Buy a quick SMS number for one verification code (single-use, 20 min, auto-refund if no SMS). |
+| `check_sms_verification` | Poll a quick SMS order for the incoming code. |
+| `cancel_sms_verification` | Cancel a waiting quick SMS order for an immediate refund. |
+| `list_sms_orders` | List your quick SMS orders and rental numbers. |
+| `rent_sms_number` | Rent a long-term receive-only SMS number (extendable; not for banking/financial verification). |
+| `get_sms_rental_messages` | Read a rental number's inbox. |
+| `extend_sms_rental` | Extend a rental before expiry — days are added on top of the current expiry. |
 
 ---
 
