@@ -118,6 +118,8 @@ Add a custom connector with URL `https://pikasim.com/mcp` to browse, or `https:/
 | `get_topup_options` | List valid top-up packages for an existing eSIM. |
 | `topup_esim` | Add more data to an existing eSIM. |
 | `list_orders` | List recent orders with status and cost. |
+| `list_esims` | Fleet view: every eSIM the wallet owns (ICCID, plan, status, install link, remaining data for small fleets). |
+| `list_transactions` | Wallet ledger: every deposit, purchase, and refund with running balance. |
 | `create_deposit` | Generate a crypto invoice to fund your wallet (BTC, Lightning, Monero, USDT, 50+ altcoins). |
 | `cancel_esim` | Cancel an **unused** eSIM and refund to your wallet (only if never installed/activated). |
 | `order_sms_verification` | Buy a quick SMS number for one verification code (single-use, 20 min, auto-refund if no SMS). |
