@@ -60,7 +60,12 @@ Remote servers are added as **Connectors**, not via `claude_desktop_config.json`
 # Browse only
 claude mcp add --transport http pikasim https://pikasim.com/mcp
 
-# With an agent wallet (purchasing)
+# With purchasing via OAuth (recommended): add the wallet URL, then run /mcp
+# inside Claude Code and pick "Authenticate" — a browser opens the PikaSim
+# consent page where you paste your wallet code
+claude mcp add --transport http pikasim https://pikasim.com/mcp/wallet
+
+# With purchasing via key (scriptable alternative)
 claude mcp add --transport http pikasim https://pikasim.com/mcp \
   --header "Authorization: Bearer ak_live_YOUR_KEY"
 ```
@@ -77,6 +82,8 @@ claude mcp add --transport http pikasim https://pikasim.com/mcp \
   }
 }
 ```
+
+To purchase from clients that support MCP OAuth (Cursor does), use `https://pikasim.com/mcp/wallet` as the URL instead — the client opens the PikaSim consent page where you paste your wallet code.
 
 ### ChatGPT (custom connector)
 
