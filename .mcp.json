@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "pikasim": {
+      "type": "streamableHttp",
+      "url": "https://pikasim.com/mcp"
+    }
+  }
+}
