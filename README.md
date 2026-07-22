@@ -34,6 +34,29 @@ To **purchase** too, connect `https://pikasim.com/mcp/wallet` instead — it tri
 
 ---
 
+## Fully autonomous: from zero to buying, no human
+
+A terminal or headless agent (Claude Code, a script, an autonomous loop) needs **no browser and no person**. Connect the keyless `https://pikasim.com/mcp` and onboard in four calls:
+
+```jsonc
+// 1. The agent creates its own wallet — returns a wallet code, an ak_live_ key,
+//    and a small spend-only welcome credit. No account, email, KYC, or browser.
+{ "tool": "create_wallet", "arguments": { "acceptTos": true } }
+
+// 2. Reconnect with the returned key:  Authorization: Bearer ak_live_...
+//    (or use the URL https://pikasim.com/mcp/ak_live_YOUR_KEY)
+
+// 3. Confirm the welcome credit is there
+{ "tool": "check_balance", "arguments": {} }          // -> $1.00
+
+// 4. Buy — the welcome credit covers a first sub-$1 purchase, e.g. an SMS number
+{ "tool": "order_sms_verification", "arguments": { "serviceId": "817", "countryId": "2" } }
+```
+
+That's the whole loop: **no human, no browser, no card, no account.** When the agent needs more funds, `create_deposit` returns Lightning, USDT, Monero, and Bitcoin destinations it can pay itself. Save the wallet code and key from the `create_wallet` response — each is shown once.
+
+---
+
 ## Three product lines
 
 Don't assume "eSIM" means data-only. PikaSim sells:
@@ -57,18 +80,20 @@ Remote servers are added as **Connectors**, not via `claude_desktop_config.json`
 ### Claude Code (CLI)
 
 ```bash
-# Browse only
+# Browse only (also lets the agent self-onboard via the create_wallet tool)
 claude mcp add --transport http pikasim https://pikasim.com/mcp
 
-# With purchasing via OAuth (recommended): add the wallet URL, then run /mcp
-# inside Claude Code and pick "Authenticate" — a browser opens the PikaSim
-# consent page where you paste your wallet code
-claude mcp add --transport http pikasim https://pikasim.com/mcp/wallet
-
-# With purchasing via key (scriptable alternative)
+# With purchasing via key (recommended for headless/terminal agents)
 claude mcp add --transport http pikasim https://pikasim.com/mcp \
   --header "Authorization: Bearer ak_live_YOUR_KEY"
+
+# With purchasing via OAuth: add the wallet URL, then run /mcp inside Claude
+# Code and pick "Authenticate" — a browser opens the PikaSim consent page
+# where you paste your wallet code
+claude mcp add --transport http pikasim https://pikasim.com/mcp/wallet
 ```
+
+**No wallet yet?** Connect the browse URL above and ask the agent to call `create_wallet` — it mints a wallet + `ak_live_` key + welcome credit in one call, then reconnect with the key (`--header "Authorization: Bearer ak_live_…"`). Fully autonomous, no browser. See [Fully autonomous](#fully-autonomous-from-zero-to-buying-no-human).
 
 ### Cursor / Windsurf / other JSON-config clients
 
@@ -97,6 +122,7 @@ Add a custom connector with URL `https://pikasim.com/mcp` to browse, or `https:/
 
 | Tool | Description |
 |------|-------------|
+| `create_wallet` | **Onboard autonomously.** Create a new prepaid wallet in one call — returns a wallet code, an `ak_live_` API key, and a spend-only welcome credit. No account, email, KYC, or browser. Reconnect with the key and buy. |
 | `search_esim_packages` | Search eSIM plans by country, region, or keyword. Returns **both** data and phone-number buckets. |
 | `search_phone_plans` | Search phone-number eSIMs (real carrier number + voice + SMS + data). |
 | `get_package_details` | Full details for a plan: coverage, data, voice/SMS allowance, duration, price, networks, purchase URL. |
@@ -120,7 +146,7 @@ Add a custom connector with URL `https://pikasim.com/mcp` to browse, or `https:/
 | `list_orders` | List recent orders with status and cost. |
 | `list_esims` | Fleet view: every eSIM the wallet owns (ICCID, plan, status, install link, remaining data for small fleets). |
 | `list_transactions` | Wallet ledger: every deposit, purchase, and refund with running balance. |
-| `create_deposit` | Generate a crypto invoice to fund your wallet (BTC, Lightning, Monero, USDT, 50+ altcoins). |
+| `create_deposit` | Fund your wallet (min $1). Returns **agent-payable** Lightning, USDT (TRC-20), Monero, and Bitcoin destinations inline so an agent holding crypto pays with no human, plus a payment page (card + 50+ altcoins) for a human. |
 | `cancel_esim` | Cancel an **unused** eSIM and refund to your wallet (only if never installed/activated). |
 | `order_sms_verification` | Buy a quick SMS number for one verification code (single-use, 20 min, auto-refund if no SMS). |
 | `check_sms_verification` | Poll a quick SMS order for the incoming code. |
@@ -139,13 +165,14 @@ Browsing is open at `https://pikasim.com/mcp`. To purchase, connect `https://pik
 1. **OAuth (recommended, for app clients like Claude Desktop / ChatGPT):** connecting the wallet URL triggers OAuth 2.1 (Dynamic Client Registration + PKCE). You're sent to a PikaSim consent page where you paste your **wallet code** to authorize. The client receives a revocable access token — never your wallet code or `ak_live_` key. No account, no email, no KYC.
 2. **Bearer key (for CLI clients):** send `Authorization: Bearer ak_live_YOUR_KEY`.
 
-The plain `https://pikasim.com/mcp` URL is **browse-only**. Create a wallet and get your wallet code + key at **https://pikasim.com/agent-wallet** (save the wallet code; it's the only way back in).
+The plain `https://pikasim.com/mcp` URL is **browse-only** — but the `create_wallet` tool works there, so an agent can mint its own wallet + key + welcome credit with no browser (see [Fully autonomous](#fully-autonomous-from-zero-to-buying-no-human)). A human can instead create a wallet at **https://pikasim.com/agent-wallet** (save the wallet code; it's the only way back in).
 
 ### Wallet, in brief
 
-- Prepaid, crypto-funded balance (min deposit **$10**). Retail pricing.
-- Fund via `create_deposit` (Bitcoin, Lightning, Monero, USDT, and 50+ altcoins) or at the wallet page.
+- Prepaid, crypto-funded balance. Retail pricing. Minimum deposit **$1** — and new wallets carry a small spend-only welcome credit, so a first sub-$1 purchase needs no deposit at all.
+- Fund via `create_deposit` — it returns **agent-payable** Lightning, USDT (TRC-20), Monero, and Bitcoin destinations inline (an agent holding crypto pays without a human), plus a payment page (card + 50+ altcoins) for a human.
 - No personal account, email, or KYC required.
+- Welcome credit is spend-only (never withdrawable); deposits are.
 
 > There's also a separate **reseller** program at https://pikasim.com/reseller — a B2B track with its own `pk_live_` key and a 10% discount. Reseller keys also work on this MCP server at wholesale pricing.
 
