@@ -7,8 +7,8 @@ PikaSim is a **remote, hosted MCP server** (Streamable HTTP). You don't run any 
 - **Browse (no auth):** `https://pikasim.com/mcp`
 - **Purchase (OAuth):** `https://pikasim.com/mcp/wallet`
 - **Transport:** Streamable HTTP (JSON-RPC over HTTP POST)
-- **Docs:** https://pikasim.com/mcp-docs
-- **Agent wallet:** https://pikasim.com/agent-wallet
+- **Docs:** https://pikasim.com/mcp-docs?utm_source=github_pikasim_mcp
+- **Agent wallet:** https://pikasim.com/agent-wallet?utm_source=github_pikasim_mcp
 - **Browsing needs no key.** Purchasing connects a prepaid agent wallet via one-click OAuth (or an `ak_live_` key on CLI clients).
 
 ---
@@ -165,7 +165,7 @@ Browsing is open at `https://pikasim.com/mcp`. To purchase, connect `https://pik
 1. **OAuth (recommended, for app clients like Claude Desktop / ChatGPT):** connecting the wallet URL triggers OAuth 2.1 (Dynamic Client Registration + PKCE). You're sent to a PikaSim consent page where you paste your **wallet code** to authorize. The client receives a revocable access token — never your wallet code or `ak_live_` key. No account, no email, no KYC.
 2. **Bearer key (for CLI clients):** send `Authorization: Bearer ak_live_YOUR_KEY`.
 
-The plain `https://pikasim.com/mcp` URL is **browse-only** — but the `create_wallet` tool works there, so an agent can mint its own wallet + key + welcome credit with no browser (see [Fully autonomous](#fully-autonomous-from-zero-to-buying-no-human)). A human can instead create a wallet at **https://pikasim.com/agent-wallet** (save the wallet code; it's the only way back in).
+The plain `https://pikasim.com/mcp` URL is **browse-only** — but the `create_wallet` tool works there, so an agent can mint its own wallet + key + welcome credit with no browser (see [Fully autonomous](#fully-autonomous-from-zero-to-buying-no-human)). A human can instead create a wallet at **https://pikasim.com/agent-wallet?utm_source=github_pikasim_mcp** (save the wallet code; it's the only way back in).
 
 ### Wallet, in brief
 
@@ -198,7 +198,7 @@ The plain `https://pikasim.com/mcp` URL is **browse-only** — but the `create_w
 
 - Public browsing is rate-limited per IP. Authenticated tools are scoped to your wallet.
 - Errors return a clear message (e.g. insufficient balance → fund via `create_deposit` or the wallet page).
-- Full reference: **https://pikasim.com/mcp-docs**
+- Full reference: **https://pikasim.com/mcp-docs?utm_source=github_pikasim_mcp**
 
 ---
 
