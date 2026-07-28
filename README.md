@@ -13,6 +13,23 @@ PikaSim is a **remote, hosted MCP server** (Streamable HTTP). You don't run any 
 
 ---
 
+## Install as an agent skill
+
+This repo also ships a [`pikasim` agent skill](skills/pikasim/SKILL.md) — an
+installable instruction package that teaches any skill-capable agent (Claude
+Code, claude.ai, and other SKILL.md-compatible hosts) when and how to buy
+connectivity from PikaSim, including the no-MCP REST fallback and the
+cold-start wallet flow:
+
+```bash
+npx skills add codebruinc/pikasim-mcp
+```
+
+or copy `skills/pikasim/` into your agent's skills directory (e.g.
+`~/.claude/skills/pikasim/`).
+
+---
+
 ## Quick start
 
 Add PikaSim to your AI agent's MCP config:
