@@ -66,7 +66,7 @@ A terminal or headless agent (Claude Code, a script, an autonomous loop) needs *
 // 3. Confirm the welcome credit is there
 { "tool": "check_balance", "arguments": {} }          // -> $1.00
 
-// 4. Buy — the welcome credit covers a first sub-$1 purchase, e.g. an SMS number
+// 4. Buy — the welcome credit covers a first eSIM data plan (from $0.75); SMS numbers need a $1 deposit
 { "tool": "order_sms_verification", "arguments": { "serviceId": "817", "countryId": "2" } }
 ```
 
@@ -186,7 +186,7 @@ The plain `https://pikasim.com/mcp` URL is **browse-only** — but the `create_w
 
 ### Wallet, in brief
 
-- Prepaid, crypto-funded balance. Retail pricing. Minimum deposit **$1** — and new wallets carry a small spend-only welcome credit, so a first sub-$1 purchase needs no deposit at all.
+- Prepaid, crypto-funded balance. Retail pricing. Minimum deposit **$1** — and new wallets carry a small spend-only welcome credit, so a first eSIM data plan (from $0.75) needs no deposit at all. SMS verification numbers always need a deposit.
 - Fund via `create_deposit` — it returns **agent-payable** Lightning, USDT (TRC-20), Monero, and Bitcoin destinations inline (an agent holding crypto pays without a human), plus a payment page (card + 50+ altcoins) for a human.
 - No personal account, email, or KYC required.
 - Welcome credit is spend-only (never withdrawable); deposits are.
