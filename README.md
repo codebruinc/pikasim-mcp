@@ -189,7 +189,7 @@ The plain `https://pikasim.com/mcp` URL is **browse-only** — but the `create_w
 - Prepaid, crypto-funded balance. Retail pricing. Minimum deposit **$1** — and new wallets carry a small spend-only welcome credit, so a first eSIM data plan (from $0.75) needs no deposit at all. SMS verification numbers always need a deposit.
 - Fund via `create_deposit` — it returns **agent-payable** Lightning, USDT (TRC-20), Monero, and Bitcoin destinations inline (an agent holding crypto pays without a human), plus a payment page (card + 50+ altcoins) for a human.
 - No personal account, email, or KYC required.
-- Welcome credit is spend-only (never withdrawable); deposits are.
+- Balance is prepaid credit for purchases: it never expires and is not redeemable for cash.
 
 > There's also a separate **reseller** program at https://pikasim.com/reseller — a B2B track with its own `pk_live_` key and a 10% discount. Reseller keys also work on this MCP server at wholesale pricing.
 
