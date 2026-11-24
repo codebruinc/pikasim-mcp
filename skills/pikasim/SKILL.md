@@ -39,6 +39,11 @@ Walk in order; first match wins.
    catalog + purchase via REST; cold-start wallet creation works here too via
    one JSON-RPC call. → [api.md](references/api.md)
 
+   A human in a chat app with no wallet connected can still buy: on the
+   keyless endpoint, `purchase_esim` / `purchase_phone_plan` return a checkout
+   link for the exact plan. Confirm the plan and price, then give them that
+   link; they pay by card or crypto and the page shows the QR code.
+
 3. **Browser + human in the loop?** Hand the user a link:
    storefront <https://pikasim.com>, wallet dashboard
    <https://pikasim.com/agent-wallet> (create/fund a wallet, mint an

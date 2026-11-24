@@ -4,26 +4,31 @@ Remote Streamable-HTTP MCP server, two endpoints:
 
 | Endpoint | Auth | Use for |
 |---|---|---|
-| `https://pikasim.com/mcp` | none (keyless) | browse/search all products, `create_wallet` |
+| `https://pikasim.com/mcp` | none (keyless) | browse/search all products; `purchase_esim` / `purchase_phone_plan` return a checkout link for the exact plan (the user pays on pikasim.com); `create_wallet` |
 | `https://pikasim.com/mcp/wallet` | OAuth 2.1 (DCR + PKCE) | interactive clients — triggers a consent page where the user pastes their wallet code |
 
 A wallet's `ak_live_` API key also works directly on the keyless endpoint —
 send header `Authorization: Bearer ak_live_...` (or connect the URL
 `https://pikasim.com/mcp/ak_live_YOUR_KEY`). With a key attached, purchase
-tools work; without one, browsing and `create_wallet` still work.
+tools charge the wallet; without one, `purchase_esim` / `purchase_phone_plan`
+return a checkout link to hand the user, and browsing and `create_wallet`
+still work.
 
 ## Connect
 
 - **Claude Desktop / Claude.ai:** Settings → Connectors → Add custom
-  connector. Browse: `https://pikasim.com/mcp`. Purchase:
-  `https://pikasim.com/mcp/wallet` → Connect → paste wallet code on the
+  connector. Simplest: `https://pikasim.com/mcp` (purchases come back as
+  checkout links the user pays by card or crypto). To charge a wallet in the
+  chat: `https://pikasim.com/mcp/wallet` → Connect → paste wallet code on the
   consent page.
 - **Claude Code:**
   `claude mcp add --transport http pikasim https://pikasim.com/mcp`
-  (append `--header "Authorization: Bearer ak_live_..."` to purchase).
+  (append `--header "Authorization: Bearer ak_live_..."` to charge a wallet;
+  without it, purchases return checkout links).
 - **Cursor / other OAuth-capable clients:** add `https://pikasim.com/mcp/wallet`
   as a remote server; the client runs the OAuth flow.
-- **ChatGPT:** add a custom connector with `https://pikasim.com/mcp`.
+- **ChatGPT:** add a custom connector with `https://pikasim.com/mcp`
+  (checkout links), or `https://pikasim.com/mcp/wallet` to charge a wallet.
 
 ## Tool map (~30 tools; names are self-describing)
 
@@ -36,7 +41,8 @@ tools work; without one, browsing and `create_wallet` still work.
 - **Wallet (authed):** `check_balance`, `create_deposit` (from $1 — returns a
   Lightning/BTC/XMR/USDT invoice the agent can pay itself, plus a payment-page
   URL to hand a human), `list_transactions`, `list_orders`.
-- **Purchase (authed):** `purchase_esim`, `purchase_phone_plan`,
+- **Purchase:** `purchase_esim`, `purchase_phone_plan` (authed: charge the
+  wallet; keyless: return a checkout link for the exact plan),
   `order_sms_verification` → poll `check_sms_verification`,
   `rent_sms_number` → `get_sms_rental_messages` / `extend_sms_rental`.
 - **Fleet (authed):** `list_esims`, `get_esim_status`, `get_topup_options`,

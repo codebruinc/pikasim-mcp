@@ -2,14 +2,14 @@
 
 > Buy eSIMs from an AI agent — no account, no email, no KYC. Anonymous data plans, **real carrier phone numbers**, and **SMS verification numbers** across 190+ countries, settled in crypto from a prepaid agent wallet.
 
-PikaSim is a **remote, hosted MCP server** (Streamable HTTP). You don't run any code — just point your AI agent at the URL and it can search plans, check coverage, get pricing, and (with a funded agent wallet) purchase eSIMs and SMS numbers autonomously.
+PikaSim is a **remote, hosted MCP server** (Streamable HTTP). You don't run any code — just point your AI agent at the URL and it can search plans, check coverage, get pricing, and buy: with no wallet the purchase tools return a checkout link for the exact plan (the user pays by card or crypto on pikasim.com), and with a funded agent wallet it purchases eSIMs and SMS numbers autonomously.
 
 - **Browse (no auth):** `https://pikasim.com/mcp`
 - **Purchase (OAuth):** `https://pikasim.com/mcp/wallet`
 - **Transport:** Streamable HTTP (JSON-RPC over HTTP POST)
 - **Docs:** https://pikasim.com/mcp-docs?utm_source=github_pikasim_mcp
 - **Agent wallet:** https://pikasim.com/agent-wallet?utm_source=github_pikasim_mcp
-- **Browsing needs no key.** Purchasing connects a prepaid agent wallet via one-click OAuth (or an `ak_live_` key on CLI clients).
+- **No key needed to buy.** On the keyless URL, `purchase_esim` / `purchase_phone_plan` return a checkout link for the exact plan. To charge purchases inside the chat, connect a prepaid agent wallet via one-click OAuth (or an `ak_live_` key on CLI clients).
 
 ---
 
@@ -47,7 +47,7 @@ Add PikaSim to your AI agent's MCP config:
 
 That's it — your agent can now search data and phone-number eSIM plans, check country coverage, and get pricing for 190+ countries. **No API key needed for browsing.**
 
-To **purchase** too, connect `https://pikasim.com/mcp/wallet` instead — it triggers a one-click OAuth flow where you authorize a free, prepaid [agent wallet](https://pikasim.com/agent-wallet) by pasting your wallet code (no key handling, no account, no email). See [Authentication](#authentication).
+That URL already buys: the purchase tools return a checkout link for the exact plan, paid by card or crypto on pikasim.com. To have purchases **charged to a wallet inside the chat**, connect `https://pikasim.com/mcp/wallet` instead — it triggers a one-click OAuth flow where you authorize a free, prepaid [agent wallet](https://pikasim.com/agent-wallet) by pasting your wallet code (no key handling, no account, no email). See [Authentication](#authentication).
 
 ---
 
@@ -92,19 +92,20 @@ PikaSim is a remote MCP server at `https://pikasim.com/mcp`. The config key and 
 
 ### Claude Desktop
 
-Remote servers are added as **Connectors**, not via `claude_desktop_config.json`. Go to **Settings → Connectors → Add custom connector**. To browse, paste `https://pikasim.com/mcp`. To **purchase**, paste `https://pikasim.com/mcp/wallet` and click **Connect** — Claude opens a PikaSim page where you authorize a wallet by pasting your wallet code (one-click OAuth, no key in the URL).
+Remote servers are added as **Connectors**, not via `claude_desktop_config.json`. Go to **Settings → Connectors → Add custom connector**. Paste `https://pikasim.com/mcp` (ask for a plan and Claude hands you a checkout link). To have Claude **pay from a wallet**, paste `https://pikasim.com/mcp/wallet` instead and click **Connect** — Claude opens a PikaSim page where you authorize a wallet by pasting your wallet code (one-click OAuth, no key in the URL).
 
 ### Claude Code (CLI)
 
 ```bash
-# Browse only (also lets the agent self-onboard via the create_wallet tool)
+# Keyless: browse, purchases come back as checkout links, and the agent can
+# self-onboard via the create_wallet tool
 claude mcp add --transport http pikasim https://pikasim.com/mcp
 
 # With purchasing via key (recommended for headless/terminal agents)
 claude mcp add --transport http pikasim https://pikasim.com/mcp \
   --header "Authorization: Bearer ak_live_YOUR_KEY"
 
-# With purchasing via OAuth: add the wallet URL, then run /mcp inside Claude
+# Wallet purchases via OAuth: add the wallet URL, then run /mcp inside Claude
 # Code and pick "Authenticate" — a browser opens the PikaSim consent page
 # where you paste your wallet code
 claude mcp add --transport http pikasim https://pikasim.com/mcp/wallet
@@ -125,11 +126,11 @@ claude mcp add --transport http pikasim https://pikasim.com/mcp/wallet
 }
 ```
 
-To purchase from clients that support MCP OAuth (Cursor does), use `https://pikasim.com/mcp/wallet` as the URL instead — the client opens the PikaSim consent page where you paste your wallet code.
+Without a wallet, purchases come back as checkout links. To charge a wallet from clients that support MCP OAuth (Cursor does), use `https://pikasim.com/mcp/wallet` as the URL instead — the client opens the PikaSim consent page where you paste your wallet code.
 
 ### ChatGPT (custom connector)
 
-Add a custom connector with URL `https://pikasim.com/mcp` to browse, or `https://pikasim.com/mcp/wallet` to purchase (the wallet URL triggers OAuth — authorize by pasting your wallet code).
+Add a custom connector with URL `https://pikasim.com/mcp` (purchases come back as checkout links), or `https://pikasim.com/mcp/wallet` to pay from a wallet (the wallet URL triggers OAuth — authorize by pasting your wallet code).
 
 ---
 
@@ -155,8 +156,8 @@ Add a custom connector with URL `https://pikasim.com/mcp` to browse, or `https:/
 | Tool | Description |
 |------|-------------|
 | `check_balance` | Check your agent-wallet balance. |
-| `purchase_esim` | Buy a data eSIM. Returns activation info (ICCID, QR, SM-DP+). |
-| `purchase_phone_plan` | Buy a phone-number eSIM (real number + voice + SMS + data). |
+| `purchase_esim` | Buy a data eSIM. Returns activation info (ICCID, QR, SM-DP+). With no key, returns a checkout link for the plan instead. |
+| `purchase_phone_plan` | Buy a phone-number eSIM (real number + voice + SMS + data). With no key, returns a checkout link for the plan instead. |
 | `get_esim_status` | Live status, data usage, and expiration of an eSIM. |
 | `get_topup_options` | List valid top-up packages for an existing eSIM. |
 | `topup_esim` | Add more data to an existing eSIM. |
