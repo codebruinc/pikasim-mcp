@@ -2,8 +2,8 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "com.pikasim/pikasim",
   "title": "PikaSim",
-  "description": "Anonymous eSIMs, phone numbers, and SMS codes in 190+ countries. Crypto-paid; agents self-onboard.",
-  "version": "1.4.0",
+  "description": "Buy eSIMs, phone numbers and SMS codes from any AI. Checkout link or prepaid wallet. No KYC.",
+  "version": "1.5.0",
   "websiteUrl": "https://pikasim.com/mcp?utm_source=mcp_registry",
   "repository": {
     "url": "https://github.com/codebruinc/pikasim-mcp",
