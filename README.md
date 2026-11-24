@@ -7,8 +7,8 @@ PikaSim is a **remote, hosted MCP server** (Streamable HTTP). You don't run any 
 - **Browse (no auth):** `https://pikasim.com/mcp`
 - **Purchase (OAuth):** `https://pikasim.com/mcp/wallet`
 - **Transport:** Streamable HTTP (JSON-RPC over HTTP POST)
-- **Docs:** https://pikasim.com/mcp-docs?utm_source=github_pikasim_mcp
-- **Agent wallet:** https://pikasim.com/agent-wallet?utm_source=github_pikasim_mcp
+- **Setup, tools and FAQ:** https://pikasim.com/mcp?utm_source=github_pikasim_mcp (the connector address is also the page)
+- **Wallet:** https://pikasim.com/wallet?utm_source=github_pikasim_mcp
 - **No key needed to buy.** On the keyless URL, `purchase_esim` / `purchase_phone_plan` return a checkout link for the exact plan. To charge purchases inside the chat, connect a prepaid agent wallet via one-click OAuth (or an `ak_live_` key on CLI clients).
 
 ---
@@ -47,7 +47,7 @@ Add PikaSim to your AI agent's MCP config:
 
 That's it — your agent can now search data and phone-number eSIM plans, check country coverage, and get pricing for 190+ countries. **No API key needed for browsing.**
 
-That URL already buys: the purchase tools return a checkout link for the exact plan, paid by card or crypto on pikasim.com. To have purchases **charged to a wallet inside the chat**, connect `https://pikasim.com/mcp/wallet` instead. It triggers a one-click OAuth flow where you authorize a free, prepaid [agent wallet](https://pikasim.com/agent-wallet) by pasting your wallet code (no key handling, no account, no email). See [Authentication](#authentication).
+That URL already buys: the purchase tools return a checkout link for the exact plan, paid by card or crypto on pikasim.com. To have purchases **charged to a wallet inside the chat**, connect `https://pikasim.com/mcp/wallet` instead. It triggers a one-click OAuth flow where you authorize a free, prepaid [PikaSim Wallet](https://pikasim.com/wallet) by pasting your wallet code (no key handling, no account, no email). See [Authentication](#authentication).
 
 ---
 
@@ -183,7 +183,7 @@ Browsing is open at `https://pikasim.com/mcp`. To purchase, connect `https://pik
 1. **OAuth (recommended, for app clients like Claude Desktop / ChatGPT):** connecting the wallet URL triggers OAuth 2.1 (Dynamic Client Registration + PKCE). You're sent to a PikaSim consent page where you paste your **wallet code** to authorize. The client receives a revocable access token — never your wallet code or `ak_live_` key. No account, no email, no KYC.
 2. **Bearer key (for CLI clients):** send `Authorization: Bearer ak_live_YOUR_KEY`.
 
-The plain `https://pikasim.com/mcp` URL is **browse-only** — but the `create_wallet` tool works there, so an agent can mint its own wallet + key + welcome credit with no browser (see [Fully autonomous](#fully-autonomous-from-zero-to-buying-no-human)). A human can instead create a wallet at **https://pikasim.com/agent-wallet?utm_source=github_pikasim_mcp** (save the wallet code; it's the only way back in).
+The plain `https://pikasim.com/mcp` URL browses and returns checkout links, and the `create_wallet` tool works there too, so an agent can mint its own wallet + key + welcome credit with no browser (see [Fully autonomous](#fully-autonomous-from-zero-to-buying-no-human)). A human can instead create a wallet at **https://pikasim.com/wallet?utm_source=github_pikasim_mcp** (save the wallet code; it's the only way back in).
 
 ### Wallet, in brief
 
@@ -216,7 +216,7 @@ The plain `https://pikasim.com/mcp` URL is **browse-only** — but the `create_w
 
 - Public browsing is rate-limited per IP. Authenticated tools are scoped to your wallet.
 - Errors return a clear message (e.g. insufficient balance → fund via `create_deposit` or the wallet page).
-- Full reference: **https://pikasim.com/mcp-docs?utm_source=github_pikasim_mcp**
+- Full reference: **https://pikasim.com/mcp?utm_source=github_pikasim_mcp#reference**
 
 ---
 
@@ -225,9 +225,8 @@ The plain `https://pikasim.com/mcp` URL is **browse-only** — but the `create_w
 [PikaSim](https://pikasim.com) is a privacy-first eSIM marketplace: no accounts, no email, no KYC, crypto settlement. The MCP server exposes the same catalog and ordering to AI agents.
 
 - Website: https://pikasim.com
-- MCP docs: https://pikasim.com/mcp-docs
-- Agent wallet: https://pikasim.com/agent-wallet
-- Agentic ordering guide: https://pikasim.com/agentic-esim-ordering
+- Setup, tools and FAQ: https://pikasim.com/mcp
+- Wallet: https://pikasim.com/wallet
 
 ## For registries (Dockerfile)
 

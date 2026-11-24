@@ -4,7 +4,7 @@
   "title": "PikaSim",
   "description": "Anonymous eSIMs, phone numbers, and SMS codes in 190+ countries. Crypto-paid; agents self-onboard.",
   "version": "1.4.0",
-  "websiteUrl": "https://pikasim.com/agentic-esim?utm_source=mcp_registry",
+  "websiteUrl": "https://pikasim.com/mcp?utm_source=mcp_registry",
   "repository": {
     "url": "https://github.com/codebruinc/pikasim-mcp",
     "source": "github"

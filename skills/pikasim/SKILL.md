@@ -5,8 +5,8 @@ compatibility: "Needs ONE of: an MCP-capable client (remote Streamable-HTTP serv
 metadata:
   author: codebruinc
   version: "1.0.0"
-  homepage: "https://pikasim.com/agentic-esim"
-  docs: "https://pikasim.com/mcp-docs"
+  homepage: "https://pikasim.com/mcp"
+  docs: "https://pikasim.com/mcp"
   repository: "https://github.com/codebruinc/pikasim-mcp"
 ---
 
@@ -46,10 +46,10 @@ Walk in order; first match wins.
 
 3. **Browser + human in the loop?** Hand the user a link:
    storefront <https://pikasim.com>, wallet dashboard
-   <https://pikasim.com/agent-wallet> (create/fund a wallet, mint an
+   <https://pikasim.com/wallet> (create/fund a wallet, mint an
    `ak_live_` API key to bring back to paths 1–2).
 
-4. **None of the above** — give the user <https://pikasim.com/agentic-esim>
+4. **None of the above:** give the user <https://pikasim.com/mcp>
    and stop.
 
 ## Cold start (no wallet yet, no human available)
@@ -94,4 +94,4 @@ Real money moves on every purchase. Non-negotiable rules:
 This skill routes; it does not enumerate. Live catalog, prices, and coverage
 come from the API/MCP tools at call time — never from memory. Full API
 reference: <https://pikasim.com/api-docs-for-ai> · OpenAPI:
-<https://pikasim.com/openapi.yaml> · MCP docs: <https://pikasim.com/mcp-docs>.
+<https://pikasim.com/openapi.yaml> · MCP setup and tools: <https://pikasim.com/mcp>.
