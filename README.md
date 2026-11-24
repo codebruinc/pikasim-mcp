@@ -2,7 +2,7 @@
 
 > Buy eSIMs from an AI agent — no account, no email, no KYC. Anonymous data plans, **real carrier phone numbers**, and **SMS verification numbers** across 190+ countries, settled in crypto from a prepaid agent wallet.
 
-PikaSim is a **remote, hosted MCP server** (Streamable HTTP). You don't run any code — just point your AI agent at the URL and it can search plans, check coverage, get pricing, and buy: with no wallet the purchase tools return a checkout link for the exact plan (the user pays by card or crypto on pikasim.com), and with a funded agent wallet it purchases eSIMs and SMS numbers autonomously.
+PikaSim is a **remote, hosted MCP server** (Streamable HTTP). You don't run any code; just point your AI agent at the URL and it can search plans, check coverage, get pricing, and buy: with no wallet the purchase tools return a checkout link for the exact plan (the user pays by card or crypto on pikasim.com), and with a funded agent wallet it purchases eSIMs and SMS numbers autonomously.
 
 - **Browse (no auth):** `https://pikasim.com/mcp`
 - **Purchase (OAuth):** `https://pikasim.com/mcp/wallet`
@@ -47,7 +47,7 @@ Add PikaSim to your AI agent's MCP config:
 
 That's it — your agent can now search data and phone-number eSIM plans, check country coverage, and get pricing for 190+ countries. **No API key needed for browsing.**
 
-That URL already buys: the purchase tools return a checkout link for the exact plan, paid by card or crypto on pikasim.com. To have purchases **charged to a wallet inside the chat**, connect `https://pikasim.com/mcp/wallet` instead — it triggers a one-click OAuth flow where you authorize a free, prepaid [agent wallet](https://pikasim.com/agent-wallet) by pasting your wallet code (no key handling, no account, no email). See [Authentication](#authentication).
+That URL already buys: the purchase tools return a checkout link for the exact plan, paid by card or crypto on pikasim.com. To have purchases **charged to a wallet inside the chat**, connect `https://pikasim.com/mcp/wallet` instead. It triggers a one-click OAuth flow where you authorize a free, prepaid [agent wallet](https://pikasim.com/agent-wallet) by pasting your wallet code (no key handling, no account, no email). See [Authentication](#authentication).
 
 ---
 
@@ -92,7 +92,7 @@ PikaSim is a remote MCP server at `https://pikasim.com/mcp`. The config key and 
 
 ### Claude Desktop
 
-Remote servers are added as **Connectors**, not via `claude_desktop_config.json`. Go to **Settings → Connectors → Add custom connector**. Paste `https://pikasim.com/mcp` (ask for a plan and Claude hands you a checkout link). To have Claude **pay from a wallet**, paste `https://pikasim.com/mcp/wallet` instead and click **Connect** — Claude opens a PikaSim page where you authorize a wallet by pasting your wallet code (one-click OAuth, no key in the URL).
+Remote servers are added as **Connectors**, not via `claude_desktop_config.json`. Go to **Settings → Connectors → Add custom connector**. Paste `https://pikasim.com/mcp` (ask for a plan and Claude hands you a checkout link). To have Claude **pay from a wallet**, paste `https://pikasim.com/mcp/wallet` instead and click **Connect**. Claude opens a PikaSim page where you authorize a wallet by pasting your wallet code (one-click OAuth, no key in the URL).
 
 ### Claude Code (CLI)
 
@@ -126,11 +126,11 @@ claude mcp add --transport http pikasim https://pikasim.com/mcp/wallet
 }
 ```
 
-Without a wallet, purchases come back as checkout links. To charge a wallet from clients that support MCP OAuth (Cursor does), use `https://pikasim.com/mcp/wallet` as the URL instead — the client opens the PikaSim consent page where you paste your wallet code.
+Without a wallet, purchases come back as checkout links. To charge a wallet from clients that support MCP OAuth (Cursor does), use `https://pikasim.com/mcp/wallet` as the URL instead; the client opens the PikaSim consent page where you paste your wallet code.
 
 ### ChatGPT (custom connector)
 
-Add a custom connector with URL `https://pikasim.com/mcp` (purchases come back as checkout links), or `https://pikasim.com/mcp/wallet` to pay from a wallet (the wallet URL triggers OAuth — authorize by pasting your wallet code).
+Add a custom connector with URL `https://pikasim.com/mcp` (purchases come back as checkout links), or `https://pikasim.com/mcp/wallet` to pay from a wallet (the wallet URL triggers OAuth: authorize by pasting your wallet code).
 
 ---
 
