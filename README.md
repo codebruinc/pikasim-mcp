@@ -13,6 +13,14 @@ PikaSim is a **remote, hosted MCP server** (Streamable HTTP). You don't run any 
 
 ---
 
+## Gemini CLI
+
+```bash
+gemini extensions install https://github.com/codebruinc/pikasim-mcp
+```
+
+This repo is a Gemini CLI extension (`gemini-extension.json` at the root): it adds the PikaSim MCP server at `https://pikasim.com/mcp` and a short `GEMINI.md` so Gemini knows how to buy for you.
+
 ## Install as an agent skill
 
 This repo also ships a [`pikasim` agent skill](skills/pikasim/SKILL.md) — an

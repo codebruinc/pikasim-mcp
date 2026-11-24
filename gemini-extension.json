@@ -1,0 +1,11 @@
+{
+  "name": "pikasim",
+  "version": "1.5.0",
+  "description": "Buy travel eSIMs, real phone numbers and SMS codes for 190+ countries by asking. Pay on a checkout link by card or crypto. No account, no KYC.",
+  "mcpServers": {
+    "pikasim": {
+      "httpUrl": "https://pikasim.com/mcp"
+    }
+  },
+  "contextFileName": "GEMINI.md"
+}
