@@ -1,0 +1,14 @@
+{
+  "name": "pikasim",
+  "version": "1.5.0",
+  "description": "Buy travel eSIMs, real phone numbers and SMS verification codes for 190+ countries by asking. The agent finds the plan and returns a checkout link you pay by card or crypto. No account, no KYC.",
+  "author": {
+    "name": "PikaSim",
+    "email": "support@pikasim.com"
+  },
+  "homepage": "https://pikasim.com/mcp",
+  "repository": "https://github.com/codebruinc/pikasim-mcp",
+  "license": "MIT",
+  "keywords": ["esim", "travel", "phone-number", "sms", "mobile-data", "roaming", "mcp"],
+  "logo": "assets/logo.png"
+}

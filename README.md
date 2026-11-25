@@ -125,6 +125,10 @@ claude mcp add --transport http pikasim https://pikasim.com/mcp/wallet
 
 ### Cursor / Windsurf / other JSON-config clients
 
+[![Add PikaSim to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/install-mcp?name=pikasim&config=eyJ1cmwiOiJodHRwczovL3Bpa2FzaW0uY29tL21jcCJ9)
+
+This repo is also a Cursor plugin (`.cursor-plugin/plugin.json` + `mcp.json` + the `pikasim` skill). Or add it by hand:
+
 ```json
 {
   "mcpServers": {
