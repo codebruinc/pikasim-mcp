@@ -1,6 +1,8 @@
 # PikaSim MCP Server
 
-> Buy eSIMs from an AI agent — no account, no email, no KYC. Anonymous data plans, **real carrier phone numbers**, and **SMS verification numbers** across 190+ countries, settled in crypto from a prepaid agent wallet.
+[![PikaSim MCP connector](https://glama.ai/mcp/connectors/com.pikasim/pikasim/badges/score.svg)](https://glama.ai/mcp/connectors/com.pikasim/pikasim)
+
+> Buy eSIMs from an AI agent. No account, no email, no KYC. Anonymous data plans, **real carrier phone numbers**, and **SMS verification numbers** across 190+ countries, settled in crypto from a prepaid agent wallet.
 
 PikaSim is a **remote, hosted MCP server** (Streamable HTTP). You don't run any code; just point your AI agent at the URL and it can search plans, check coverage, get pricing, and buy: with no wallet the purchase tools return a checkout link for the exact plan (the user pays by card or crypto on pikasim.com), and with a funded agent wallet it purchases eSIMs and SMS numbers autonomously.
 
