@@ -5,9 +5,9 @@ Remote Streamable-HTTP MCP server, two endpoints:
 | Endpoint | Auth | Use for |
 |---|---|---|
 | `https://pikasim.com/mcp` | none (keyless) | browse/search all products; `purchase_esim` / `purchase_phone_plan` return a checkout link for the exact plan (the user pays on pikasim.com); `create_wallet` |
-| `https://pikasim.com/mcp/wallet` | OAuth 2.1 (DCR + PKCE) | interactive clients — triggers a consent page where the user pastes their wallet code |
+| `https://pikasim.com/mcp/wallet` | OAuth 2.1 (DCR + PKCE) | interactive clients: triggers a consent page where the user pastes their wallet code |
 
-A wallet's `ak_live_` API key also works directly on the keyless endpoint —
+A wallet's `ak_live_` API key also works directly on the keyless endpoint: 
 send header `Authorization: Bearer ak_live_...` (or connect the URL
 `https://pikasim.com/mcp/ak_live_YOUR_KEY`). With a key attached, purchase
 tools charge the wallet; without one, `purchase_esim` / `purchase_phone_plan`
@@ -36,9 +36,9 @@ still work.
   `get_pricing`, `get_package_details`, `search_phone_plans`,
   `get_phone_plan_pricing`, `search_sms_services`, `get_sms_service_countries`,
   `list_sms_rentals` (live stock), `search`, `fetch`.
-- **Onboarding (keyless):** `create_wallet` — mints wallet code + `ak_live_`
+- **Onboarding (keyless):** `create_wallet`: mints wallet code + `ak_live_`
   key + welcome credit in one call. Both credentials shown ONCE; save them.
-- **Wallet (authed):** `check_balance`, `create_deposit` (from $1 — returns a
+- **Wallet (authed):** `check_balance`, `create_deposit` (from $1: returns a
   Lightning/BTC/XMR/USDT invoice the agent can pay itself, plus a payment-page
   URL to hand a human), `list_transactions`, `list_orders`.
 - **Purchase:** `purchase_esim`, `purchase_phone_plan` (authed: charge the
@@ -54,12 +54,12 @@ still work.
 1. Connect keyless `https://pikasim.com/mcp`.
 2. `create_wallet` → SAVE wallet code + `ak_live_` key.
 3. Reconnect with `Authorization: Bearer ak_live_...`.
-4. `check_balance` — the welcome credit may already cover a sub-$1 first
+4. `check_balance`: the welcome credit may already cover a sub-$1 first
    purchase (e.g. an SMS code). If not: `create_deposit`, pay the invoice (or
    hand the payment URL to the user), poll `check_balance` until credited.
 5. Discover (`search_*`) → confirm price with the user → `purchase_*`.
 6. Deliver the returned install/invoice URL (never raw activation codes).
 
-Common trap: connecting only `/mcp/wallet` in a headless environment — it
+Common trap: connecting only `/mcp/wallet` in a headless environment: it
 401-challenges for OAuth and a headless agent can't complete the browser
 consent. Headless agents should use `/mcp` with a Bearer key instead.

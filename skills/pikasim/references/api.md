@@ -2,9 +2,9 @@
 
 Everything works with curl/fetch. Two API surfaces:
 
-- **Public catalog** — `https://pikasim.com/api/packages/...`, no auth,
+- **Public catalog**: `https://pikasim.com/api/packages/...`, no auth,
   ~100 req/min/IP.
-- **Wallet API** — `https://pikasim.com/api/v1/agent-wallet/...`, auth with
+- **Wallet API**: `https://pikasim.com/api/v1/agent-wallet/...`, auth with
   either header: `X-API-Key: ak_live_...` or `Authorization: Bearer ak_live_...`.
 
 Authoritative reference (all endpoints, request/response shapes):
@@ -12,7 +12,7 @@ Authoritative reference (all endpoints, request/response shapes):
 <https://pikasim.com/openapi.yaml>. This file covers the spine.
 
 **Money units:** wallet-API amounts (`balance`, deposit `amount`) are USD
-**cents**. Catalog `price` is **micro-dollars** (divide by 10,000) — prefer the
+**cents**. Catalog `price` is **micro-dollars** (divide by 10,000): prefer the
 pre-computed `priceUSD` field. Don't mix them up.
 
 ## Cold start without MCP (one JSON-RPC call)
@@ -27,7 +27,7 @@ curl -s -X POST https://pikasim.com/mcp \
        "params":{"name":"create_wallet","arguments":{"acceptTos":true}}}'
 ```
 
-The response text contains the wallet code and `ak_live_` API key — **each
+The response text contains the wallet code and `ak_live_` API key: **each
 shown exactly once, no recovery without them. Save both immediately.** A small
 spend-only welcome credit is usually included.
 
@@ -45,7 +45,7 @@ curl 'https://pikasim.com/api/packages/phone-plans'
 ## Wallet operations (authed)
 
 ```bash
-# balance — cents + formatted string
+# balance: cents + formatted string
 curl -H "X-API-Key: $KEY" https://pikasim.com/api/v1/agent-wallet/balance
 
 # fund: create a crypto deposit invoice (amount in CENTS, min 100 = $1).
@@ -60,7 +60,7 @@ curl -H "X-API-Key: $KEY" -H 'Content-Type: application/json' \
 curl -H "X-API-Key: $KEY" -H 'Content-Type: application/json' \
   -d '{"packageCode": "PACKAGE_CODE"}' \
   https://pikasim.com/api/v1/agent-wallet/orders
-# response includes the eSIM install/invoice URL — deliver that link
+# response includes the eSIM install/invoice URL: deliver that link
 
 # fleet: GET /esims · /esims/{iccid} · /esims/{iccid}/usage
 #        /esims/{iccid}/topup-options · POST /esims/{iccid}/topup

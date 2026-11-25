@@ -25,7 +25,7 @@ This repo is a Gemini CLI extension (`gemini-extension.json` at the root): it ad
 
 ## Install as an agent skill
 
-This repo also ships a [`pikasim` agent skill](skills/pikasim/SKILL.md) — an
+This repo also ships a [`pikasim` agent skill](skills/pikasim/SKILL.md): an
 installable instruction package that teaches any skill-capable agent (Claude
 Code, claude.ai, and other SKILL.md-compatible hosts) when and how to buy
 connectivity from PikaSim, including the no-MCP REST fallback and the
@@ -55,7 +55,7 @@ Add PikaSim to your AI agent's MCP config:
 }
 ```
 
-That's it — your agent can now search data and phone-number eSIM plans, check country coverage, and get pricing for 190+ countries. **No API key needed for browsing.**
+That's it: your agent can now search data and phone-number eSIM plans, check country coverage, and get pricing for 190+ countries. **No API key needed for browsing.**
 
 That URL already buys: the purchase tools return a checkout link for the exact plan, paid by card or crypto on pikasim.com. To have purchases **charged to a wallet inside the chat**, connect `https://pikasim.com/mcp/wallet` instead. It triggers a one-click OAuth flow where you authorize a free, prepaid [PikaSim Wallet](https://pikasim.com/wallet) by pasting your wallet code (no key handling, no account, no email). See [Authentication](#authentication).
 
@@ -66,7 +66,7 @@ That URL already buys: the purchase tools return a checkout link for the exact p
 A terminal or headless agent (Claude Code, a script, an autonomous loop) needs **no browser and no person**. Connect the keyless `https://pikasim.com/mcp` and onboard in four calls:
 
 ```jsonc
-// 1. The agent creates its own wallet — returns a wallet code, an ak_live_ key,
+// 1. The agent creates its own wallet: returns a wallet code, an ak_live_ key,
 //    and a small spend-only welcome credit. No account, email, KYC, or browser.
 { "tool": "create_wallet", "arguments": { "acceptTos": true } }
 
@@ -76,11 +76,11 @@ A terminal or headless agent (Claude Code, a script, an autonomous loop) needs *
 // 3. Confirm the welcome credit is there
 { "tool": "check_balance", "arguments": {} }          // -> $1.00
 
-// 4. Buy — the welcome credit covers a first eSIM data plan (from $0.75); SMS numbers need a $1 deposit
+// 4. Buy: the welcome credit covers a first eSIM data plan (from $0.75); SMS numbers need a $1 deposit
 { "tool": "order_sms_verification", "arguments": { "serviceId": "817", "countryId": "2" } }
 ```
 
-That's the whole loop: **no human, no browser, no card, no account.** When the agent needs more funds, `create_deposit` returns Lightning, USDT, Monero, and Bitcoin destinations it can pay itself. Save the wallet code and key from the `create_wallet` response — each is shown once.
+That's the whole loop: **no human, no browser, no card, no account.** When the agent needs more funds, `create_deposit` returns Lightning, USDT, Monero, and Bitcoin destinations it can pay itself. Save the wallet code and key from the `create_wallet` response: each is shown once.
 
 ---
 
@@ -88,11 +88,11 @@ That's the whole loop: **no human, no browser, no card, no account.** When the a
 
 Don't assume "eSIM" means data-only. PikaSim sells:
 
-1. **Data eSIMs** — anonymous data plans across 190+ countries, from **$0.75**. Discover with `search_esim_packages` / `check_country_coverage`; buy with `purchase_esim`.
-2. **Phone-number eSIMs** — a **real carrier phone number** (not VoIP) with voice calls, SMS, and data. US plans give a real **+1** number on AT&T and T-Mobile; global plans cover 157 countries. Discover with `search_phone_plans`; buy with `purchase_phone_plan`.
-3. **SMS verification numbers** — receive-only numbers for getting verification codes, no eSIM involved. **Quick SMS**: a one-time code on a temporary number, auto-refund if nothing arrives in 20 minutes (`search_sms_services` → `get_sms_service_countries` → `order_sms_verification` → poll `check_sms_verification`). **Long-term rentals**: keep a number for days to months and receive multiple SMS, with live stock shown per duration (`list_sms_rentals` → `rent_sms_number` → `get_sms_rental_messages` / `extend_sms_rental`).
+1. **Data eSIMs**: anonymous data plans across 190+ countries, from **$0.75**. Discover with `search_esim_packages` / `check_country_coverage`; buy with `purchase_esim`.
+2. **Phone-number eSIMs**: a **real carrier phone number** (not VoIP) with voice calls, SMS, and data. US plans give a real **+1** number on AT&T and T-Mobile; global plans cover 157 countries. Discover with `search_phone_plans`; buy with `purchase_phone_plan`.
+3. **SMS verification numbers**: receive-only numbers for getting verification codes, no eSIM involved. **Quick SMS**: a one-time code on a temporary number, auto-refund if nothing arrives in 20 minutes (`search_sms_services` → `get_sms_service_countries` → `order_sms_verification` → poll `check_sms_verification`). **Long-term rentals**: keep a number for days to months and receive multiple SMS, with live stock shown per duration (`list_sms_rentals` → `rent_sms_number` → `get_sms_rental_messages` / `extend_sms_rental`).
 
-`search_esim_packages` and `check_country_coverage` return **both** eSIM lines in separate buckets. Package codes appear in `[brackets]` — pass them to the matching purchase tool.
+`search_esim_packages` and `check_country_coverage` return **both** eSIM lines in separate buckets. Package codes appear in `[brackets]`: pass them to the matching purchase tool.
 
 ---
 
@@ -116,12 +116,12 @@ claude mcp add --transport http pikasim https://pikasim.com/mcp \
   --header "Authorization: Bearer ak_live_YOUR_KEY"
 
 # Wallet purchases via OAuth: add the wallet URL, then run /mcp inside Claude
-# Code and pick "Authenticate" — a browser opens the PikaSim consent page
+# Code and pick "Authenticate": a browser opens the PikaSim consent page
 # where you paste your wallet code
 claude mcp add --transport http pikasim https://pikasim.com/mcp/wallet
 ```
 
-**No wallet yet?** Connect the browse URL above and ask the agent to call `create_wallet` — it mints a wallet + `ak_live_` key + welcome credit in one call, then reconnect with the key (`--header "Authorization: Bearer ak_live_…"`). Fully autonomous, no browser. See [Fully autonomous](#fully-autonomous-from-zero-to-buying-no-human).
+**No wallet yet?** Connect the browse URL above and ask the agent to call `create_wallet`: it mints a wallet + `ak_live_` key + welcome credit in one call, then reconnect with the key (`--header "Authorization: Bearer ak_live_…"`). Fully autonomous, no browser. See [Fully autonomous](#fully-autonomous-from-zero-to-buying-no-human).
 
 ### Cursor / Windsurf / other JSON-config clients
 
@@ -150,11 +150,11 @@ Add a custom connector with URL `https://pikasim.com/mcp` (purchases come back a
 
 | Tool | Description |
 |------|-------------|
-| `create_wallet` | **Onboard autonomously.** Create a new prepaid wallet in one call — returns a wallet code, an `ak_live_` API key, and a spend-only welcome credit. No account, email, KYC, or browser. Reconnect with the key and buy. |
+| `create_wallet` | **Onboard autonomously.** Create a new prepaid wallet in one call: returns a wallet code, an `ak_live_` API key, and a spend-only welcome credit. No account, email, KYC, or browser. Reconnect with the key and buy. |
 | `search_esim_packages` | Search eSIM plans by country, region, or keyword. Returns **both** data and phone-number buckets. |
 | `search_phone_plans` | Search phone-number eSIMs (real carrier number + voice + SMS + data). |
 | `get_package_details` | Full details for a plan: coverage, data, voice/SMS allowance, duration, price, networks, purchase URL. |
-| `check_country_coverage` | What PikaSim plans cover a country — data and phone-number buckets with counts and price ranges. |
+| `check_country_coverage` | What PikaSim plans cover a country: data and phone-number buckets with counts and price ranges. |
 | `get_pricing` | USD price for a specific plan (data or phone-number) by `packageCode`. |
 | `get_phone_plan_pricing` | USD price + voice/SMS/data allowance for a specific phone-number eSIM. |
 | `search_sms_services` | Search SMS verification services (Discord, Google, Telegram, … or "Other" for anything unlisted). |
@@ -182,7 +182,7 @@ Add a custom connector with URL `https://pikasim.com/mcp` (purchases come back a
 | `list_sms_orders` | List your quick SMS orders and rental numbers. |
 | `rent_sms_number` | Rent a long-term receive-only SMS number (extendable; not for banking/financial verification). |
 | `get_sms_rental_messages` | Read a rental number's inbox. |
-| `extend_sms_rental` | Extend a rental before expiry — days are added on top of the current expiry. |
+| `extend_sms_rental` | Extend a rental before expiry: days are added on top of the current expiry. |
 
 ---
 
@@ -190,19 +190,19 @@ Add a custom connector with URL `https://pikasim.com/mcp` (purchases come back a
 
 Browsing is open at `https://pikasim.com/mcp`. To purchase, connect `https://pikasim.com/mcp/wallet`, which supports two auth methods:
 
-1. **OAuth (recommended, for app clients like Claude Desktop / ChatGPT):** connecting the wallet URL triggers OAuth 2.1 (Dynamic Client Registration + PKCE). You're sent to a PikaSim consent page where you paste your **wallet code** to authorize. The client receives a revocable access token — never your wallet code or `ak_live_` key. No account, no email, no KYC.
+1. **OAuth (recommended, for app clients like Claude Desktop / ChatGPT):** connecting the wallet URL triggers OAuth 2.1 (Dynamic Client Registration + PKCE). You're sent to a PikaSim consent page where you paste your **wallet code** to authorize. The client receives a revocable access token: never your wallet code or `ak_live_` key. No account, no email, no KYC.
 2. **Bearer key (for CLI clients):** send `Authorization: Bearer ak_live_YOUR_KEY`.
 
 The plain `https://pikasim.com/mcp` URL browses and returns checkout links, and the `create_wallet` tool works there too, so an agent can mint its own wallet + key + welcome credit with no browser (see [Fully autonomous](#fully-autonomous-from-zero-to-buying-no-human)). A human can instead create a wallet at **https://pikasim.com/wallet?utm_source=github_pikasim_mcp** (save the wallet code; it's the only way back in).
 
 ### Wallet, in brief
 
-- Prepaid, crypto-funded balance. Retail pricing. Minimum deposit **$1** — and new wallets carry a small spend-only welcome credit, so a first eSIM data plan (from $0.75) needs no deposit at all. SMS verification numbers always need a deposit.
-- Fund via `create_deposit` — it returns **agent-payable** Lightning, USDT (TRC-20), Monero, and Bitcoin destinations inline (an agent holding crypto pays without a human), plus a payment page (card + 50+ altcoins) for a human.
+- Prepaid, crypto-funded balance. Retail pricing. Minimum deposit **$1**. New wallets carry a small spend-only welcome credit, so a first eSIM data plan (from $0.75) needs no deposit at all. SMS verification numbers always need a deposit.
+- Fund via `create_deposit`: it returns **agent-payable** Lightning, USDT (TRC-20), Monero, and Bitcoin destinations inline (an agent holding crypto pays without a human), plus a payment page (card + 50+ altcoins) for a human.
 - No personal account, email, or KYC required.
 - Balance is prepaid credit for purchases: it never expires and is not redeemable for cash.
 
-> There's also a separate **reseller** program at https://pikasim.com/reseller — a B2B track with its own `pk_live_` key and a 10% discount. Reseller keys also work on this MCP server at wholesale pricing.
+> There's also a separate **reseller** program at https://pikasim.com/reseller: a B2B track with its own `pk_live_` key and a 10% discount. Reseller keys also work on this MCP server at 10% off retail.
 
 ---
 
@@ -240,8 +240,8 @@ The plain `https://pikasim.com/mcp` URL browses and returns checkout links, and 
 
 ## For registries (Dockerfile)
 
-You do **not** need Docker to use PikaSim — just point your client at the URL above. The included [`Dockerfile`](Dockerfile) exists only so registries (e.g. [Glama](https://glama.ai/mcp/servers/codebruinc/pikasim-mcp)) can start a container, speak MCP over stdio, and introspect the tool set. It runs [`mcp-remote`](https://www.npmjs.com/package/mcp-remote), which bridges a local stdio client to the hosted Streamable HTTP endpoint. All public tools are discoverable with no key.
+You do **not** need Docker to use PikaSim: just point your client at the URL above. The included [`Dockerfile`](Dockerfile) exists only so registries (e.g. [Glama](https://glama.ai/mcp/servers/codebruinc/pikasim-mcp)) can start a container, speak MCP over stdio, and introspect the tool set. It runs [`mcp-remote`](https://www.npmjs.com/package/mcp-remote), which bridges a local stdio client to the hosted Streamable HTTP endpoint. All public tools are discoverable with no key.
 
 ## License
 
-MIT — see [LICENSE](LICENSE). This repository contains documentation for the hosted PikaSim MCP server; the server itself runs at `https://pikasim.com/mcp`.
+MIT. See [LICENSE](LICENSE). This repository contains documentation for the hosted PikaSim MCP server; the server itself runs at `https://pikasim.com/mcp`.
