@@ -66,21 +66,22 @@ That URL already buys: the purchase tools return a checkout link for the exact p
 A terminal or headless agent (Claude Code, a script, an autonomous loop) needs **no browser and no person**. Connect the keyless `https://pikasim.com/mcp` and onboard in four calls:
 
 ```jsonc
-// 1. The agent creates its own wallet: returns a wallet code, an ak_live_ key,
-//    and a small spend-only welcome credit. No account, email, KYC, or browser.
+// 1. The agent creates its own wallet: returns a wallet code and an ak_live_ key.
+//    The wallet starts at $0. No account, email, KYC, or browser.
 { "tool": "create_wallet", "arguments": { "acceptTos": true } }
 
 // 2. Reconnect with the returned key:  Authorization: Bearer ak_live_...
 //    (or use the URL https://pikasim.com/mcp/ak_live_YOUR_KEY)
 
-// 3. Confirm the welcome credit is there
-{ "tool": "check_balance", "arguments": {} }          // -> $1.00
+// 3. Fund the wallet (from $1): returns Lightning, Monero, and Bitcoin
+//    destinations the agent can pay itself, plus a payment page for a human
+{ "tool": "create_deposit", "arguments": { "amount": 1 } }
 
-// 4. Buy: the welcome credit covers a first eSIM data plan (from $0.75); SMS numbers need a $1 deposit
+// 4. Buy once check_balance shows the deposit
 { "tool": "order_sms_verification", "arguments": { "serviceId": "817", "countryId": "2" } }
 ```
 
-That's the whole loop: **no human, no browser, no card, no account.** When the agent needs more funds, `create_deposit` returns Lightning, USDT, Monero, and Bitcoin destinations it can pay itself. Save the wallet code and key from the `create_wallet` response: each is shown once.
+That's the whole loop: **no human, no browser, no card, no account**, for an agent that holds crypto (it pays the Lightning invoice itself). An agent with no funds of its own hands the payment page to a person, or passes `payWith: "checkout"` to `purchase_esim` / `purchase_phone_plan` so the person pays for that one purchase. Save the wallet code and key from the `create_wallet` response: each is shown once.
 
 ---
 
@@ -121,7 +122,7 @@ claude mcp add --transport http pikasim https://pikasim.com/mcp \
 claude mcp add --transport http pikasim https://pikasim.com/mcp/wallet
 ```
 
-**No wallet yet?** Connect the browse URL above and ask the agent to call `create_wallet`: it mints a wallet + `ak_live_` key + welcome credit in one call, then reconnect with the key (`--header "Authorization: Bearer ak_live_…"`). Fully autonomous, no browser. See [Fully autonomous](#fully-autonomous-from-zero-to-buying-no-human).
+**No wallet yet?** Connect the browse URL above and ask the agent to call `create_wallet`: it mints a wallet + `ak_live_` key in one call, then reconnect with the key (`--header "Authorization: Bearer ak_live_…"`) and fund the wallet from $1 with `create_deposit`. Fully autonomous, no browser. See [Fully autonomous](#fully-autonomous-from-zero-to-buying-no-human).
 
 ### Cursor / Windsurf / other JSON-config clients
 
@@ -154,7 +155,7 @@ Add a custom connector with URL `https://pikasim.com/mcp` (purchases come back a
 
 | Tool | Description |
 |------|-------------|
-| `create_wallet` | **Onboard autonomously.** Create a new prepaid wallet in one call: returns a wallet code, an `ak_live_` API key, and a spend-only welcome credit. No account, email, KYC, or browser. Reconnect with the key and buy. |
+| `create_wallet` | **Onboard autonomously.** Create a new prepaid wallet in one call: returns a wallet code and an `ak_live_` API key. The wallet starts at $0. No account, email, KYC, or browser. Reconnect with the key, fund it from $1 with `create_deposit`, and buy. |
 | `search_esim_packages` | Search eSIM plans by country, region, or keyword. Returns **both** data and phone-number buckets. |
 | `search_phone_plans` | Search phone-number eSIMs (real carrier number + voice + SMS + data). |
 | `get_package_details` | Full details for a plan: coverage, data, voice/SMS allowance, duration, price, networks, purchase URL. |
@@ -197,11 +198,11 @@ Browsing is open at `https://pikasim.com/mcp`. To purchase, connect `https://pik
 1. **OAuth (recommended, for app clients like Claude Desktop / ChatGPT):** connecting the wallet URL triggers OAuth 2.1 (Dynamic Client Registration + PKCE). You're sent to a PikaSim consent page where you paste your **wallet code** to authorize. The client receives a revocable access token: never your wallet code or `ak_live_` key. No account, no email, no KYC.
 2. **Bearer key (for CLI clients):** send `Authorization: Bearer ak_live_YOUR_KEY`.
 
-The plain `https://pikasim.com/mcp` URL browses and returns checkout links, and the `create_wallet` tool works there too, so an agent can mint its own wallet + key + welcome credit with no browser (see [Fully autonomous](#fully-autonomous-from-zero-to-buying-no-human)). A human can instead create a wallet at **https://pikasim.com/wallet?utm_source=github_pikasim_mcp** (save the wallet code; it's the only way back in).
+The plain `https://pikasim.com/mcp` URL browses and returns checkout links, and the `create_wallet` tool works there too, so an agent can mint its own wallet + key with no browser (see [Fully autonomous](#fully-autonomous-from-zero-to-buying-no-human)). A human can instead create a wallet at **https://pikasim.com/wallet?utm_source=github_pikasim_mcp** (save the wallet code; it's the only way back in).
 
 ### Wallet, in brief
 
-- Prepaid, crypto-funded balance. Retail pricing. Minimum deposit **$1**. New wallets carry a small spend-only welcome credit, so a first eSIM data plan (from $0.75) needs no deposit at all. SMS verification numbers always need a deposit.
+- Prepaid, crypto-funded balance. Retail pricing. Minimum deposit **$1**. A new wallet starts at $0.
 - Fund via `create_deposit`: it returns **agent-payable** Lightning, USDT (TRC-20), Monero, and Bitcoin destinations inline (an agent holding crypto pays without a human), plus a payment page (card + 50+ altcoins) for a human.
 - No personal account, email, or KYC required.
 - Balance is prepaid credit for purchases: it never expires and is not redeemable for cash.

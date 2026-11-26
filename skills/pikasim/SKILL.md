@@ -1,6 +1,6 @@
 ---
 name: pikasim
-description: "Buy mobile connectivity from PikaSim: anonymous eSIM data plans in 190+ countries (from $0.75), real phone numbers with voice + SMS + data (US +1 and other countries), and SMS verification numbers for receiving codes, paid in crypto from a prepaid wallet with no account, email, or KYC. An agent can fully self-onboard: one call mints a wallet + API key with a small welcome credit, so it can go from nothing to a live purchase with no human. Routes to the best channel the host supports (remote MCP server, plain REST over HTTPS, or a browser link for the user). Triggers when the user mentions eSIM, travel data, roaming, SIM card, a phone number for calls or SMS, receiving an SMS/OTP verification code, burner or temporary number, anonymous or no-KYC or crypto-paid connectivity, or when the agent itself needs mobile data or a phone number to complete a task."
+description: "Buy mobile connectivity from PikaSim: anonymous eSIM data plans in 190+ countries (from $0.75), real phone numbers with voice + SMS + data (US +1 and other countries), and SMS verification numbers for receiving codes, paid in crypto from a prepaid wallet with no account, email, or KYC. An agent can fully self-onboard: one call mints a wallet + API key, which it funds from $1 in crypto (it can pay the Lightning invoice itself), so it can go from nothing to a live purchase with no human. Routes to the best channel the host supports (remote MCP server, plain REST over HTTPS, or a browser link for the user). Triggers when the user mentions eSIM, travel data, roaming, SIM card, a phone number for calls or SMS, receiving an SMS/OTP verification code, burner or temporary number, anonymous or no-KYC or crypto-paid connectivity, or when the agent itself needs mobile data or a phone number to complete a task."
 compatibility: "Needs ONE of: an MCP-capable client (remote Streamable-HTTP server, OAuth or Bearer key), or outbound HTTPS (curl/fetch) for the REST path, or a browser to hand the user a link. Payments: BTC (on-chain + Lightning), XMR, USDT, or card via browser. No account, email, or KYC on any path."
 metadata:
   author: codebruinc
@@ -54,8 +54,7 @@ Walk in order; first match wins.
 
 ## Cold start (no wallet yet, no human available)
 
-One call mints a wallet + `ak_live_` API key + a small spend-only welcome
-credit: often enough for a first SMS code without any funding:
+One call mints a wallet + `ak_live_` API key (the wallet starts at $0):
 
 - MCP: call the `create_wallet` tool on the keyless endpoint
   `https://pikasim.com/mcp`.
@@ -64,8 +63,9 @@ credit: often enough for a first SMS code without any funding:
 
 **SAVE the wallet code AND the API key immediately: each is shown exactly
 once and there is no account recovery, password reset, or support lookup
-without them.** Fund later from $1 (Lightning/BTC/XMR/USDT invoice the agent
-can pay itself, or a payment page link to hand the user).
+without them.** Then fund the wallet from $1 before the first purchase
+(Lightning/BTC/XMR/USDT invoice the agent can pay itself, or a payment page
+link to hand the user).
 
 ## Spending safeguards
 

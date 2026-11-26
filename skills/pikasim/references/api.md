@@ -28,8 +28,8 @@ curl -s -X POST https://pikasim.com/mcp \
 ```
 
 The response text contains the wallet code and `ak_live_` API key: **each
-shown exactly once, no recovery without them. Save both immediately.** A small
-spend-only welcome credit is usually included.
+shown exactly once, no recovery without them. Save both immediately.** The
+wallet starts at $0: fund it with the deposit endpoint below (from $1).
 
 ## Catalog (public, no auth)
 

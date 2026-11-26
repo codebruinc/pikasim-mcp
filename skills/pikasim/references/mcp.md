@@ -37,7 +37,8 @@ still work.
   `get_phone_plan_pricing`, `search_sms_services`, `get_sms_service_countries`,
   `list_sms_rentals` (live stock), `search`, `fetch`.
 - **Onboarding (keyless):** `create_wallet`: mints wallet code + `ak_live_`
-  key + welcome credit in one call. Both credentials shown ONCE; save them.
+  key in one call (balance starts at $0). Both credentials shown ONCE; save
+  them.
 - **Wallet (authed):** `check_balance`, `create_deposit` (from $1: returns a
   Lightning/BTC/XMR/USDT invoice the agent can pay itself, plus a payment-page
   URL to hand a human), `list_transactions`, `list_orders`.
@@ -54,9 +55,10 @@ still work.
 1. Connect keyless `https://pikasim.com/mcp`.
 2. `create_wallet` → SAVE wallet code + `ak_live_` key.
 3. Reconnect with `Authorization: Bearer ak_live_...`.
-4. `check_balance`: the welcome credit may already cover a sub-$1 first
-   purchase (e.g. an SMS code). If not: `create_deposit`, pay the invoice (or
-   hand the payment URL to the user), poll `check_balance` until credited.
+4. Fund it: a new wallet starts at $0. `create_deposit` (from $1), pay the
+   invoice (or hand the payment URL to the user), poll `check_balance` until
+   credited. For a single purchase the user pays themselves, skip funding and
+   pass `payWith: "checkout"` to `purchase_esim` / `purchase_phone_plan`.
 5. Discover (`search_*`) → confirm price with the user → `purchase_*`.
 6. Deliver the returned install/invoice URL (never raw activation codes).
 
